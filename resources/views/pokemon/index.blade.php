@@ -65,10 +65,15 @@
                             @endforeach
                         </td>
                         <td style="border: 1px solid;">
-                            <a href="pokemon/{{$poke->id}}">View</a>
+                            <a href="pokemon/{{$poke->id}}" class="btn btn-outline-success">View</a>
                         </td>
                     </tr>
                     @endforeach
+                    <tr>
+                        <td class="d-flex justify-content-center">
+                            {!! $pokemon->links() !!}
+                        </td>
+                    </tr>
             </table>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

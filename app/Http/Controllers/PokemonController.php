@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\View;
 class PokemonController extends Controller
 {
     public function index() {
-        $pokemon = pokemon::all();
+        $pokemon = pokemon::paginate(20);
         return View('pokemon.index')->with('pokemon', $pokemon);
     }
 
@@ -73,18 +73,23 @@ class PokemonController extends Controller
         };
 
         foreach($pokemonDetails as $pokemons){
-            pokemon::create(array(
-                'pokedex_number' => $pokemons->id,
-                'name' => $pokemons->name,
-                'height' => $pokemons->height,
-                'weight' => $pokemons->weight,
-                'abilities' => json_encode($pokemons->abilities),
-                'forms' => json_encode($pokemons->forms),
-                'moves' => json_encode($pokemons->moves),
-                'sprites' => json_encode($pokemons->sprites),
-                'stats' => json_encode($pokemons->stats),
-                'types' =>json_encode($pokemons->types)
-            ));
-        };
+            if(pokemon::where('pokedex_number', $pokemons->id)->exists()){
+                return redirect('/pokemon');
+            } else {
+                pokemon::create(array(
+                    'pokedex_number' => $pokemons->id,
+                    'name' => $pokemons->name,
+                    'height' => $pokemons->height,
+                    'weight' => $pokemons->weight,
+                    'abilities' => json_encode($pokemons->abilities),
+                    'forms' => json_encode($pokemons->forms),
+                    'moves' => json_encode($pokemons->moves),
+                    'sprites' => json_encode($pokemons->sprites),
+                    'stats' => json_encode($pokemons->stats),
+                    'types' => json_encode($pokemons->types)
+                ));
+            }
+        }
+        return redirect('/pokemon');
     }
 }

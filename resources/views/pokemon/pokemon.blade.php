@@ -32,16 +32,18 @@
         $pokemonStats = JSON_DECODE($pokemon->stats);
         $pokemonTypes = JSON_DECODE($pokemon->types);
         ?>
+
         <table style="border: 1px solid;">
             <thead style="border: 1px solid;">
-                <td style="border: 1px solid;"></td>
-                <td style="border: 1px solid;">Pokedex Number</td>
-                <td style="border: 1px solid;">Name</td>
-                <td style="border: 1px solid;">Height</td>
-                <td style="border: 1px solid;">Weight</td>
-                <td style="border: 1px solid;">Abilities</td>
-                <td style="border: 1px solid;">Stats</td>
-                <td style="border: 1px solid;">Type</td>
+                <td style="border: 1px solid; text-align:center"></td>
+                <td style="border: 1px solid; text-align:center">Pokedex Number</td>
+                <td style="border: 1px solid; text-align:center">Name</td>
+                <td style="border: 1px solid; text-align:center">Height</td>
+                <td style="border: 1px solid; text-align:center">Weight</td>
+                <td style="border: 1px solid; text-align:center">Abilities</td>
+                <td style="border: 1px solid; text-align:center">Stats</td>
+                <td style="border: 1px solid; text-align:center">Type</td>
+                <td></td>
             </thead>
                 <tr style="border: 1px solid;">
                     <td style="border: 1px solid;"><img src="{{$pokemonSprites->front_default}}" /></td>
@@ -59,19 +61,25 @@
                             <?= ucwords($stat->stat->name)?> - Base Stat: <?= ucwords($stat->base_stat)?></br>
                         @endforeach
                     </td>
-                    <td style="border: 1px solid;">
+                    <td style="border: 1px solid;text-align:center">
                         @foreach($pokemonTypes as $type)
-                            <?= ucwords($type->type->name) ?></br>
+                        <?= ucwords($type->type->name) ?></br>
                         @endforeach
                     </td>
-                    <td style="border: 1px solid;">
-                        <a href="edit/{{$pokemon->id}}">Edit</a>
+                    <td>
+                        <a href="/pokemon" class="btn btn-outline-success">Back</a>
                     </td>
-                    <td style="border: 1px solid;">
-                        <a href="delete/{{$pokemon->id}}">Delete</a>
+                    <td>
+                        <a href="edit/{{$pokemon->id}}" class="btn btn-outline-success">Edit</a>
+                    </td>
+                    <td>
+                        <a href="delete/{{$pokemon->id}}" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
-                <tr>
+                <tr style="border: 1px solid; text-align:center">
+                    <td style="text-align:center">Move List</td>
+                </tr>
+                <tr style="border: 1px solid; text-align:center">
                     <td>
                         @foreach($pokemonMoves as $move)
                             <?= ucwords($move->move->name) ?></br>
