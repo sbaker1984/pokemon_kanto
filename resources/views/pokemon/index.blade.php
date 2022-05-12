@@ -25,7 +25,7 @@
     <div class="container">
         <div class="row justify-content-center">
             @foreach($types as $type)
-                <button class="btn-sm btn-outline-dark" v-on:click="filter">{{$type->name}}</button>
+                <button class="btn-sm btn-outline-dark" >{{$type->name}}</button>
             @endforeach
             <table style="border: 1px solid;">
                 <thead style="border: 1px solid;">
@@ -82,26 +82,5 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </div>
-<script>
-    jQuery(document).ready(function(){
-        jQuery('#type').click(function(e){
-            e.preventDefault();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            });
-            jQuery.ajax({
-                url: "{{ url('/filter') }}",
-                method: 'post',
-                data: {
-                    name:
-                },
-                success: function(result){
-                    console.log(result);
-                }});
-        });
-    });
-</script>
 </body>
 </html>
