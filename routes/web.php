@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PokemonController;
+use \App\Http\Controllers\TypesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,7 @@ use \App\Http\Controllers\PokemonController;
 */
 
 Route::get('/', [PokemonController::class, 'getPokemon']);
+Route::get('/getTypes', [TypesController::class, 'getTypes']);
+Route::get('/filter', [TypesController::class, 'filterByType']);
 
 Route::resource('pokemon', PokemonController::class);

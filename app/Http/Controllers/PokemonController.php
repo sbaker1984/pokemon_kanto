@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pokemon;
+use App\Models\Types;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\View;
@@ -11,7 +12,8 @@ class PokemonController extends Controller
 {
     public function index() {
         $pokemon = pokemon::paginate(20);
-        return View('pokemon.index')->with('pokemon', $pokemon);
+        $types = Types::all();
+        return View('pokemon.index')->with('pokemon', $pokemon)->with('types', $types);
     }
 
     public function show($id) {
@@ -58,10 +60,9 @@ class PokemonController extends Controller
 
 
     public function getPokemon(){
-        $pokemon = Http::get('https://pokeapi.co/api/v2/pokemon?limit=151');
-        $kantoPokemon = JSON_DECODE($pokemon);
+        $pokemon = JSON_DECODE(Http::get('https://pokeapi.co/api/v2/pokemon?limit=151'));
         $data = [];
-        foreach($kantoPokemon->results as $items){
+        foreach($pokemon->results as $items){
             $data[] = [
                 'url' => $items->url
             ];

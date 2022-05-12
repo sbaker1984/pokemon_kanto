@@ -24,6 +24,9 @@
 <body class="antialiased">
     <div class="container">
         <div class="row justify-content-center">
+            @foreach($types as $type)
+                <button class="btn-sm btn-outline-dark" v-on:click="filter">{{$type->name}}</button>
+            @endforeach
             <table style="border: 1px solid;">
                 <thead style="border: 1px solid;">
                     <td style="border: 1px solid;"></td>
@@ -37,31 +40,30 @@
                 </thead>
                     @foreach($pokemon as $poke)
                     <?php
-
-                        $sprite = JSON_DECODE($poke->sprites);
-                        $ability = JSON_DECODE($poke->abilities);
-                        $stat = JSON_DECODE($poke->stats);
-                        $type = JSON_DECODE($poke->types);
+                        $pokemonSprites = JSON_DECODE($poke->sprites);
+                        $pokemonAbilities = JSON_DECODE($poke->abilities);
+                        $pokemonStats = JSON_DECODE($poke->stats);
+                        $pokemonTypes = JSON_DECODE($poke->types);
                     ?>
                     <tr style="border: 1px solid;">
-                        <td style="border: 1px solid;"><img src="{{$sprite->front_default}}" /></td>
+                        <td style="border: 1px solid;"><img src="{{$pokemonSprites->front_default}}" /></td>
                         <td style="border: 1px solid;">{{$poke->pokedex_number}}</td>
                         <td style="border: 1px solid;"><?= ucwords($poke->name)?></td>
                         <td style="border: 1px solid;">{{$poke->height}}</td>
                         <td style="border: 1px solid;">{{$poke->weight}}</td>
                         <td style="border: 1px solid;">
-                            @foreach($ability as $a)
-                                <?= ucwords($a->ability->name)?> </br>
+                            @foreach($pokemonAbilities as $ability)
+                                <?= ucwords($ability->ability->name)?> </br>
                             @endforeach
                         </td>
                         <td style="border: 1px solid;">
-                            @foreach($stat as $s)
-                            <?= ucwords($s->stat->name)?> - Base Stat: <?= ucwords($s->base_stat)?></br>
+                            @foreach($pokemonStats as $stat)
+                            <?= ucwords($stat->stat->name)?> - Base Stat: <?= ucwords($stat->base_stat)?></br>
                             @endforeach
                         </td>
                         <td style="border: 1px solid;">
-                            @foreach($type as $ty)
-                                <?= ucwords($ty->type->name) ?></br>
+                            @foreach($pokemonTypes as $type)
+                                <?= ucwords($type->type->name) ?></br>
                             @endforeach
                         </td>
                         <td style="border: 1px solid;">
@@ -80,5 +82,26 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </div>
+<script>
+    jQuery(document).ready(function(){
+        jQuery('#type').click(function(e){
+            e.preventDefault();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            jQuery.ajax({
+                url: "{{ url('/filter') }}",
+                method: 'post',
+                data: {
+                    name:
+                },
+                success: function(result){
+                    console.log(result);
+                }});
+        });
+    });
+</script>
 </body>
 </html>
