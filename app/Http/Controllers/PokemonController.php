@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\View;
 class PokemonController extends Controller
 {
     public function index() {
-        $pokemon = pokemon::paginate(20);
+        $pokemon = pokemon::paginate(30);
         $types = Types::all();
         return View('pokemon.index')->with('pokemon', $pokemon)->with('types', $types);
     }
@@ -70,7 +70,7 @@ class PokemonController extends Controller
 
         $pokemonDetails = [];
         foreach($data as $urls){
-            $pokemonDetails[] = JSON_DECODE(Http::get($urls['url']));
+            $pokemonDetails[] = Http::get($urls['url']);
         };
 
         foreach($pokemonDetails as $pokemons){
@@ -87,10 +87,9 @@ class PokemonController extends Controller
                     'moves' => json_encode($pokemons->moves),
                     'sprites' => json_encode($pokemons->sprites),
                     'stats' => json_encode($pokemons->stats),
-                    'types' => json_encode($pokemons->types)
                 ));
             }
         }
-        return redirect('/pokemon');
+        return true;
     }
 }

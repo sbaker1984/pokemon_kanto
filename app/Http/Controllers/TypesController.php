@@ -9,11 +9,23 @@ use Illuminate\Support\Facades\Http;
 
 class TypesController extends Controller{
 
-    public function filterByType($type){
-        $pokemon = Pokemon::where('type', $type)->paginate(20);
-        $types = Types::all();
+    public function filterByType(Request $request){
+        $pokemon = Pokemon::get();
+        $pokemonTypes = [];
+        foreach($pokemon as $poke) {
+            $pokemonTypes[] = JSON_DECODE($poke->types);
+        }
 
-        return view('pokemon.index')->with('pokemon', $pokemon)->with('Types', $types);
+        $typeArray = [];
+        foreach($pokemonTypes as $type){
+            foreach($type as $newtype){
+                $typeArray[] = [$newtype->type->name];
+            }
+        }
+
+        $pokemonFiltered = Pokemon::whereIn('types', $typeArray)->paginate(20);
+        $types = Types::all();
+        return View('pokemon.index')->with('pokemon', $pokemonFiltered)->with('types', $types);
     }
 
     public function getTypes(){

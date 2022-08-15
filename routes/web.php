@@ -15,8 +15,11 @@ use \App\Http\Controllers\TypesController;
 |
 */
 
-Route::get('/', [PokemonController::class, 'getPokemon']);
+Route::get('/', [PokemonController::class, 'index']);
 Route::get('/getTypes', [TypesController::class, 'getTypes']);
-Route::get('/filter', [TypesController::class, 'filterByType']);
+Route::get('/getAbilities', [\App\Http\Controllers\abilitiesController::class, 'getAbilities']);
+Route::GET('/filter', [TypesController::class, 'filterByType']);
+Route::GET('/pokemon/edit/{id}', [PokemonController::class, 'edit']);
+Route::GET('/pokemon/delete/{id}', [PokemonController::class, 'delete']);
 
 Route::resource('pokemon', PokemonController::class);

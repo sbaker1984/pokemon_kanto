@@ -21,5 +21,5 @@ class Pokemon extends Model
             'sprites',
             'stats',
             'types'
-        ];
+    ];
 }
